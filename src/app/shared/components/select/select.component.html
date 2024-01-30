@@ -1,0 +1,6 @@
+<label for="title" class="">{{title}}</label>
+<!-- [(ngModel)]="eventValue" -->
+<select class="form-control" id="title" (change)="detectChanges($event)">
+    <option disabled value="" selected>--select--</option>
+    <option value="{{option}}" *ngFor="let option of data" [value]="option" [selected]="option==select" >{{ option }}</option>
+</select>

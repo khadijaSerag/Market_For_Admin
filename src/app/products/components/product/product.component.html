@@ -1,0 +1,26 @@
+<div class="card mb-5 mt-2">
+    <div class="card-body">
+        <div class="table-responsive-md">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th class="w-50">Name</th>
+                        <th>Category</th>
+                        <th>Price</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let option of data" [routerLink]="['/products/details/', option.id]">
+                        <td><img [src]="option.image" [alt]="option.title"></td>
+                        <td>{{option.title}}</td>
+                        <td>{{option.category}}</td>
+                        <td>{{option.price}} L.E</td>
+                        <td><button class="btn btn-warning" (click)="onUpdate($event,option)">Update</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

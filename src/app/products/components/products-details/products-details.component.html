@@ -1,0 +1,19 @@
+<div class="row mt-5 d-flex justify-content-center align-items-center" *ngIf="!loading">
+    <div class="col-md-5 col-sm-12">
+        <img class="img-fluid" [src]="productSelectedDetails.image">
+    </div>
+    <div class="col-md-7 col-sm-12">
+        <ul class="list-unstyled">
+            <li><strong>Title : </strong> {{productSelectedDetails.title}}</li>
+            <li><strong>Category : </strong> {{productSelectedDetails.category}}</li>
+            <li><strong>Description : </strong>{{productSelectedDetails.description}}</li>
+            <li><strong>Rate : </strong> {{productSelectedDetails.rating.rate}} </li>
+            <li><strong>Count : </strong> {{productSelectedDetails.rating.count}} </li>
+            <li><strong>Price : </strong>{{productSelectedDetails.price}} L.E</li>
+        </ul>
+
+    </div>
+</div>
+<div class="row mt-5 d-flex justify-content-center align-items-center" *ngIf="loading">
+    <app-spinner></app-spinner>
+</div>

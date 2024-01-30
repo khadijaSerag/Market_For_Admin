@@ -1,10 +1,27 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { ProductsModule } from './products/products.module';
+import { AllProductsComponent } from './products/components/all-products/all-products.component';
+import { ProductsDetailsComponent } from './products/components/products-details/products-details.component';
+import { CartComponent } from './carts/components/cart/cart.component';
 
-const routes: Routes = [];
+const routes: Routes = [
+  { path: '', redirectTo: 'carts', pathMatch: 'full' },
+  {
+    path: 'products',
+    loadChildren: () =>
+      import('./products/products.module').then((m) => m.ProductsModule),
+  },
+  {
+    path: 'carts',
+    loadChildren: () =>
+      import('./carts/carts.module').then((m) => m.CartsModule),
+  },
+  { path: '**', redirectTo: 'carts', pathMatch: 'full' },
+];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
