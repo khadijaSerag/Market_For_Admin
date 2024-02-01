@@ -1,4 +1,4 @@
-<button class="btn btn-success mt-5" data-toggle="modal" data-target="#addProduct">Add Product</button>
+<button class="btn btn-success mt-5" (click)="onShowModal()" data-toggle="modal" data-target="#addProduct">Add Product</button>
 
 
 <!-- El Data -->
@@ -17,7 +17,7 @@
     <div class="modal-dialog" role="document" style="max-width: 900px !important;">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title"  id="exampleModalLabel">Add Product</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Add Product</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -89,7 +89,8 @@
                         </div>
                         <div class="col-md-4 col-sm-12">
                             <app-select [title]="'Categories:'" [data]="categories"
-                                (selectedValue)="getSelectedCategory($event)" [select]="editForm.value.category"></app-select>
+                                (selectedValue)="getSelectedCategory($event)"
+                                [select]="editForm.value.category"></app-select>
                         </div>
                         <div class="col-md-4 col-sm-12 mt-3">
                             <label for="image">Image:</label>
@@ -101,15 +102,13 @@
                             <textarea name="desc" id="desc" class="form-control" placeholder="type here ..."
                                 formControlName="description"></textarea>
                         </div>
-
-
                     </div>
                 </form>
 
             </div>
             <div class="modal-footer">
-                <button id="save" class="btn btn-success" [disabled]="!editForm.valid"
-                    (click)="onUpdateProduct(editForm.value.id , editForm)">Update
+                <button id="save" class="btn btn-success" [disabled]="!editForm.valid || !isFormDirty"
+                    data-toggle="modal" data-target="#sureUpdateModal">Update
                     Product</button>
                 <button id="ModalClose" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
@@ -117,6 +116,28 @@
     </div>
 </div>
 
+<!-- make sure Update modal -->
+<div class="modal fade" id="sureUpdateModal" tabindex="-1" aria-labelledby="sureUpdateModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" style="color: green; font-weight: bolder;" id="sureUpdateModal"> Sure Update
+                    Product</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Are you Sure to Update this Item !
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success"
+                    (click)="onUpdateProduct(editForm.value.id , editForm)">Update</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 <!-- El spinner -->

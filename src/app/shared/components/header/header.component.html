@@ -10,11 +10,11 @@
 
 
                 <li class="nav-item px-5">
-                    <a class="nav-link" routerLink="/carts/cart">Cart</a>
+                    <a class="nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" routerLink="/carts/cart">Cart</a>
                 </li>
 
                 <li class="nav-item px-5">
-                    <a class="nav-link" routerLink="/products/all-products">Products</a>
+                    <a class="nav-link" routerLinkActive="active" routerLink="/products/all-products">Products</a>
                 </li>
 
             </ul>

@@ -3,6 +3,8 @@ import { CartService } from '../../services/cart.service';
 import { min } from 'rxjs';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ProductsService } from 'src/app/products/services/products.service';
+import { ToastrService } from 'ngx-toastr';
+declare var $: any;
 
 @Component({
   selector: 'app-cart',
@@ -23,6 +25,7 @@ export class CartComponent implements OnInit {
 
   constructor(
     private cartService: CartService,
+    private toastr: ToastrService,
     private productsService: ProductsService
   ) {}
   ngOnInit() {
@@ -62,13 +65,13 @@ export class CartComponent implements OnInit {
   }
 
   deleteCart(index: number) {
-    this.cartService.deleteCart(index).subscribe((res) => {
-      alert('Cart deleted Success');
+    this.cartService.deleteCart(index).subscribe((res) => {  
+      $('#deleteModal').modal('hide'); 
+      this.toastr.success('This Product is deleted', 'Deleted Successfully');        
       this.getAllCarts();
-      console.log('delete:: ', res);
+      // console.log('delete:: ', res);
     });
-    // this.carts.splice(index, 1);
-    // localStorage.setItem('cart', JSON.stringify(this.carts));
+
   }
 
   view(index: number) {

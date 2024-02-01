@@ -45,10 +45,39 @@
                                     {{cart.products.length}}
                                 </td>
                                 <td>
-                                    <button class="btn btn-danger ml-2" (click)="deleteCart(cart.id)">Delete</button>
+                                    <!-- Button trigger modal -->
+                                    <button class="btn btn-danger ml-2" data-toggle="modal"
+                                        data-target="#deleteModal">Delete</button>
                                     <button class="btn btn-primary ml-2" data-toggle="modal" data-target="#ViewCart"
                                         (click)="view(i)">View</button>
                                 </td>
+
+
+                                <!-- Delete modal -->
+                                <div class="modal fade" id="deleteModal" tabindex="-1"
+                                    aria-labelledby="deleteModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" style="color: brown; font-weight: bolder;"
+                                                    id="deleteModalLabel">Delete Product</h5>
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                    aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                Are you Sure to Delete this Item !
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-danger"
+                                                    (click)="deleteCart(cart.id)">Delete</button>
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-dismiss="modal">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </tr>
                         </tbody>
                     </table>

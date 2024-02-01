@@ -10,6 +10,7 @@ export class SelectComponent {
   @Input() data: any[] = [];
   @Input() select:any;
   @Output() selectedValue = new EventEmitter();
+  
 
   detectChanges(event: any) {
     this.selectedValue.emit(event);

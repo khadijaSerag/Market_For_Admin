@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ProductsService } from '../../services/products.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 declare var $: any;
 
 @Component({
@@ -16,6 +17,9 @@ export class AllProductsComponent implements OnInit {
   // sending = false;
   cartProducts: any[] = [];
   base64: any = '';
+
+  isFormDirty: boolean = false;
+  initialFormValue: any;
 
   addForm = new FormGroup({
     title: new FormControl(null, [Validators.required]),
@@ -34,11 +38,36 @@ export class AllProductsComponent implements OnInit {
     description: new FormControl(null, [Validators.required]),
   });
 
-  constructor(private productsService: ProductsService) {}
+  constructor(
+    private productsService: ProductsService,
+    private toastr: ToastrService
+  ) {}
 
   ngOnInit() {
     this.getProducts();
     this.getCategories();
+
+    // make update button in model disabled untill change the data
+    // Set initial form value
+    this.initialFormValue = this.editForm.value;
+    // Subscribe to form value changes
+    this.editForm.valueChanges.subscribe(() => {
+      this.isFormDirty = !this.areFormValuesEqual(
+        this.editForm.value,
+        this.initialFormValue
+      );
+    });
+  }
+
+  // to check the equal of values with inputs
+  private areFormValuesEqual(
+    initialFormValue: any,
+    changedFormValue: any
+  ): boolean {
+    // Implement your logic to compare form values
+    return (
+      JSON.stringify(initialFormValue) === JSON.stringify(changedFormValue)
+    );
   }
 
   getProducts() {
@@ -79,17 +108,26 @@ export class AllProductsComponent implements OnInit {
     this.addForm.get('category')?.setValue(event.target.value);
   }
 
+  onShowModal() {
+    this.addForm.reset();
+    this.base64 = null;
+    // this.addForm.get('image')?.setValue(null)
+  }
+
   onAddProduct() {
     console.log('form : ', this.addForm.value);
-    // this.addForm.reset();
     const model = this.addForm.value;
     this.productsService.addNewProduct(model).subscribe((res: any) => {
       // when success execute these...
       $('#addProduct').modal('hide');
-      alert('Add Product Success'); //  put toastr instead of alert
+      this.toastr.success('This Product is added', 'Added Successfully');
       this.getProducts(); // to refresh the data
-      this.addForm.reset();
     });
+    this.addForm.reset();
+    this.addForm.get('image')?.setValue(null);
+    this.addForm.get('category')?.setValue(null);
+    // this.addForm.value.category ? '' : '';
+    this.addForm.value.image = null;
   }
 
   update(event: any) {
@@ -103,6 +141,9 @@ export class AllProductsComponent implements OnInit {
       description: event.description,
     });
     this.base64 = event.image;
+
+    this.initialFormValue = this.editForm.value;
+    this.isFormDirty = false;
   }
 
   onUpdateProduct(id: any, model: any) {
@@ -113,11 +154,10 @@ export class AllProductsComponent implements OnInit {
       image: model.value.image,
       description: model.value.description,
     };
-    console.log('data', data);
-    console.log('id', id);
-    console.log('model', model);
     this.productsService.updateProduct(id, data).subscribe((res: any) => {
-      console.log(res);
+      $('#sureUpdateModal').modal('hide');
+      $('#updateProduct').modal('hide');
+      this.toastr.success('This Product is Updated', 'Updated Successfully');
     });
   }
 }
